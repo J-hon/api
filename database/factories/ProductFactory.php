@@ -18,11 +18,14 @@ use Illuminate\Support\Str;
 */
 
 $factory->define(Product::class, function (Faker $faker) {
+    $product = $faker->words(2, true);
+    
     return [
-        'name'  => $faker->words(1, true),
-        'slug'  => $faker->words(2, true),
+        'name'  => $product,
+        'slug'  => str_replace(' ','-' , $product),
         'code' => $faker->unique()->numerify('api###'),
         'price' => $faker->randomFloat(2, 10, 100),
+        'category_id' => $faker->numberBetween(1, 10),
         'description' => $faker->realText(50),
     ];
 });

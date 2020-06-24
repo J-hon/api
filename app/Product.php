@@ -10,4 +10,9 @@ class Product extends Model
         'name', 'slug', 'description'
     ];
 
+    public function product()
+    {
+        return $this->belongsTo('App\Category');
+    }
+
 }

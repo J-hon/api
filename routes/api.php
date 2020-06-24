@@ -33,6 +33,10 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/saveforlater', 'SaveForLaterController@store');
     Route::delete('/saveforlater/{id}', 'SaveForLaterController@destroy');
 
+    // Catrgory routes
+    Route::get('/categories', 'CategoryController@index');
+    Route::get('/category/{id}', 'CategoryController@show');
+
     // Login routes
     Route::post('register', 'Auth\AuthController@register');
     Route::post('login', 'Auth\AuthController@login');

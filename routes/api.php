@@ -33,7 +33,7 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/saveforlater', 'SaveForLaterController@store');
     Route::delete('/saveforlater/{id}', 'SaveForLaterController@destroy');
 
-    // Catrgory routes
+    // Category routes
     Route::get('/categories', 'CategoryController@index');
     Route::get('/category/{id}', 'CategoryController@show');
 
@@ -41,5 +41,8 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('register', 'Auth\AuthController@register');
     Route::post('login', 'Auth\AuthController@login');
     Route::post('logout', 'Auth\AuthController@logout');
+
+    // Search route
+    Route::get('/{query}', 'SearchController@search');
 
 });

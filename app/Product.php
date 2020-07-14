@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Review;
 
 class Product extends Model
 {
@@ -10,9 +11,14 @@ class Product extends Model
         'name', 'slug', 'description'
     ];
 
-    public function product()
+    public function category()
     {
         return $this->belongsTo('App\Category');
+    }
+
+    public function reviews()
+    {
+    	return $this->hasMany(Review::class);
     }
 
 }

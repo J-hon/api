@@ -14,35 +14,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::group(['middleware' => ['api']], function() {
 
-    // Product routes
-    Route::apiResource('/products', 'ProductController');
+    Route::prefix('v1')->group(function () {
 
-    // Cart routes
-    Route::get('/cart', 'CartController@index');
-    Route::post('/cart', 'CartController@store');
-    Route::delete('/cart/{id}', 'CartController@destroy');
+        // Product routes
+        Route::apiResource('/products', 'ProductController');
 
-    // Saveforlater routes
-    Route::get('/saveforlater', 'SaveForLaterController@index');
-    Route::post('/saveforlater', 'SaveForLaterController@store');
-    Route::delete('/saveforlater/{id}', 'SaveForLaterController@destroy');
+        // Review routes
+        Route::get('products/{product}/reviews', 'ReviewController@index');
+        Route::post('products/{product}/reviews', 'ReviewController@store');
 
-    // Category routes
-    Route::get('/categories', 'CategoryController@index');
-    Route::get('/category/{id}', 'CategoryController@show');
+        // Cart routes
+        Route::get('/cart', 'CartController@index');
+        Route::post('/cart', 'CartController@store');
+        Route::delete('/cart/{id}', 'CartController@destroy');
 
-    // Login routes
-    Route::post('register', 'Auth\AuthController@register');
-    Route::post('login', 'Auth\AuthController@login');
-    Route::post('logout', 'Auth\AuthController@logout');
+        // Saveforlater routes
+        Route::get('/saveforlater', 'SaveForLaterController@index');
+        Route::post('/saveforlater', 'SaveForLaterController@store');
+        Route::delete('/saveforlater/{id}', 'SaveForLaterController@destroy');
 
-    // Search route
-    Route::get('/{query}', 'SearchController@search');
+        // Category routes
+        Route::get('/categories', 'CategoryController@index');
+        Route::get('/category/{id}', 'CategoryController@show');
 
+        // Login routes
+        Route::post('register', 'Auth\AuthController@register');
+        Route::post('login', 'Auth\AuthController@login');
+        Route::post('logout', 'Auth\AuthController@logout');
+
+        // Search route
+        Route::get('/{query}', 'SearchController@search');
+
+    });
 });

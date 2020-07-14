@@ -11,6 +11,12 @@ use App\User;
 class AuthController extends Controller
 {
 
+    //find current user
+    public function getAuthUser(Request $request)
+    {
+        return response()->json(auth()->user());
+    }
+
     public function register(AuthRequest $request)
     {
         $user = User::create([

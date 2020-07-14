@@ -45,6 +45,12 @@ class CartController extends Controller
         $cart->user_id = $user->id;
         $cart->product_id = $request->product_id;
 
+        if (isset($cart->user_id) and isset($cart->product_id)) {
+            return response()->json([
+                'data' => 'Item already exists in cart.'
+            ], 409);
+        }
+
         $cart->save();
 
         return response()->json([

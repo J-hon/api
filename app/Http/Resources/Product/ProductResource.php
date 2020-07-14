@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Product;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,7 +15,7 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+             'id' => $this->id,
             'name' => $this->name,
             'code' => $this->code,
             'slug' => $this->slug,
@@ -23,6 +23,9 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
+            'href' => [
+                'link' => route('products.show', $this->id)
+            ]
         ];
     }
 }

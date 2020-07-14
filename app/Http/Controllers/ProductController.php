@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\Product\ProductReviewResource;
 use App\Product;
 
 class ProductController extends Controller
@@ -35,7 +36,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $product = new Product;
-        
+
         $product->name = $request->name;
         $product->code = $request->code;
         $product->slug = $request->slug;
@@ -58,7 +59,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        return new ProductResource($product);
+        return new ProductReviewResource($product);
     }
 
     /**
@@ -71,7 +72,10 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $id)
     {
         $product = Product::findOrFail($id);
-        $product->update($request->all());
+
+        $product->update($request->only([
+            'name', 'description', 'price', 'category_id'
+        ]));
 
         return new ProductResource($product);
     }

@@ -8,7 +8,7 @@ use App\Review;
 class Product extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'description'
+        'name', 'code', 'slug', 'description', 'price', 'category_id'
     ];
 
     public function category()

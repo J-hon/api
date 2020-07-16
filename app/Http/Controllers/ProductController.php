@@ -2,63 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Services\ProductService;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Product\ProductReviewResource;
-use App\Product;
 
 class ProductController extends Controller
 {
 
-    public function __construct()
+    /**
+     * @var ProductService
+     */
+
+    private $productService;
+
+    /**
+     * ProductController constructor.
+     * @param ProductService $productService
+     */
+
+    public function __construct(ProductService $productService)
     {
         $this->middleware('auth:api')->except(['index', 'show']);
+        $this->productService = $productService;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        $product = Product::paginate(5);
-        return ProductResource::collection($product);
+        $products = $this->productService->index();
+        return ProductResource::collection($products);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\ProductRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param ProductRequest $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
+
     public function store(ProductRequest $request)
     {
-        $product = new Product;
+        $data = $request->all();
 
-        $product->name = $request->name;
-        $product->code = $request->code;
-        $product->slug = $request->slug;
-        $product->description = $request->description;
-        $product->price = $request->price;
-
-        $product->save();
-
-        return response([
-            'data' => new ProductResource($product)
-        ], 201);
+        try {
+            $result = $this->productService->store($data);
+            return response([
+                'data' => new ProductResource($result)
+            ], 201);
+        }
+        catch (\Exception $e) {
+            return response([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return ProductReviewResource
      */
     public function show($id)
     {
-        $product = Product::findOrFail($id);
+        $product = $this->productService->getProductById($id);
         return new ProductReviewResource($product);
     }
 
@@ -67,16 +77,11 @@ class ProductController extends Controller
      *
      * @param  \App\Http\Requests\ProductRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return ProductResource
      */
     public function update(ProductRequest $request, $id)
     {
-        $product = Product::findOrFail($id);
-
-        $product->update($request->only([
-            'name', 'description', 'price', 'category_id'
-        ]));
-
+        $product = $this->productService->updateProduct($id, $request->all());
         return new ProductResource($product);
     }
 
@@ -84,13 +89,11 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
-
-        return response()->json(null, 204);
+        $product = $this->productService->deleteProduct($id);
+        return $product;
     }
 }

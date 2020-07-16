@@ -48,4 +48,5 @@ Route::group(['middleware' => ['api']], function() {
         Route::get('/{query}', 'SearchController@search');
 
     });
+
 });

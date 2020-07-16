@@ -20,6 +20,7 @@ class ProductReviewResource extends JsonResource
             'code' => $this->code,
             'slug' => $this->slug,
             'price' => $this->price,
+            'category_id' => $this->category_id,
             'description' => $this->description,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,

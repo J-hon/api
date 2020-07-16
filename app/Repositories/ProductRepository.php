@@ -3,7 +3,7 @@
 
 namespace App\Repositories;
 
-use App\Product;
+use App\Models\Product;
 
 class ProductRepository
 {
@@ -41,7 +41,6 @@ class ProductRepository
         $product->category_id = $data['category_id'];
 
         $product->save();
-
         return $product;
     }
 

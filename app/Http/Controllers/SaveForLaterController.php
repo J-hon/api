@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SaveForLaterRequest;
 use App\Http\Resources\SaveForLaterResource;
 use Illuminate\Support\Facades\Auth;
-use App\SaveForLater;
+use App\Models\SaveForLater;
 
 class SaveForLaterController extends Controller
 {
@@ -19,7 +19,7 @@ class SaveForLaterController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
@@ -35,7 +35,7 @@ class SaveForLaterController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(SaveForLaterRequest $request)
     {
@@ -79,7 +79,7 @@ class SaveForLaterController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

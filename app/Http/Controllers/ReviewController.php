@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\ReviewRequest;
 use App\Http\Resources\ReviewResource;
 use Illuminate\Support\Facades\Auth;
-use App\Product;
-use App\Review;
+use App\Models\Product;
+use App\Models\Review;
 
 class ReviewController extends Controller
 {
@@ -19,7 +18,7 @@ class ReviewController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\ReviewResourceCollection
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Product $product)
     {

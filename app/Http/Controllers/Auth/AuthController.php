@@ -24,16 +24,16 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
-    
+
         $token = auth()->login($user);
-    
+
         return $this->respondWithToken($token);
     }
 
     public function login(Request $request)
     {
         $credentials = $request->only(['email', 'password']);
-        
+
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }

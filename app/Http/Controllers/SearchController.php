@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\SearchRequest;
 use App\Http\Resources\SearchResource;
-use App\Product;
+use App\Models\Product;
 
 class SearchController extends Controller
 {
@@ -13,12 +11,10 @@ class SearchController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\SearchRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function search($query)
     {
-        // $query = $request->input(trim($query));
-
         $query = trim($query);
 
         $products = Product::where('name', 'like', "%$query%")

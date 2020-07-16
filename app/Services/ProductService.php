@@ -3,10 +3,6 @@
 namespace App\Services;
 
 use App\Repositories\ProductRepository;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
-use InvalidArgumentException;
 
 class ProductService
 {
@@ -25,15 +21,23 @@ class ProductService
         $this->productRepository = $productRepository;
     }
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
-        return $this->productRepository->index();
+        $products =$this->productRepository->index();
+        return $products;
     }
 
+    /**
+     * @param $data
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function store($data)
     {
-        $result = $this->productRepository->store($data);
-        return $result;
+        $product = $this->productRepository->store($data);
+        return $product;
     }
 
     /**
@@ -42,46 +46,47 @@ class ProductService
      */
     public function getProductById(int $id)
     {
-        return $this->productRepository->getProductById($id);
+        $product = $this->productRepository->getProductById($id);
+        return $product;
     }
 
     /**
      * @param int $id
      * @param array $product
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updateProduct(int $id, array $product)
     {
-        $prod = $this->productRepository->getProductById($id);
+        $getProduct = $this->productRepository->getProductById($id);
 
-        if (!$prod) {
-            return response([
+        if (!$getProduct) {
+            return response()->json([
                 'message' => 'Product Not Found'
             ], 404);
         }
 
-        $this->productRepository->updateProduct($prod, $product);
-        return response([
+        $this->productRepository->updateProduct($getProduct, $product);
+        return response()->json([
             'message' => 'Product Updated'
         ], 200);
     }
 
     /**
      * @param int $id
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function deleteProduct(int $id)
     {
         $prod = $this->productRepository->getProductById($id);
 
         if (!$prod) {
-            return response([
+            return response()->json([
                 'message' => 'Product Not Found'
             ], 404);
         }
 
         $this->productRepository->deleteProduct($prod);
-        return response([
+        return response()->json([
             'message' => 'Product Deleted'
         ], 200);
     }

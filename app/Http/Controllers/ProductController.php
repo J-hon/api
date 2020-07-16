@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Product\ProductUpdateRequest;
 use App\Services\ProductService;
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\Product\ProductRequest;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Product\ProductReviewResource;
 
@@ -40,24 +41,13 @@ class ProductController extends Controller
 
     /**
      * @param ProductRequest $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return ProductResource
      */
 
     public function store(ProductRequest $request)
     {
-        $data = $request->all();
-
-        try {
-            $result = $this->productService->store($data);
-            return response([
-                'data' => new ProductResource($result)
-            ], 201);
-        }
-        catch (\Exception $e) {
-            return response([
-                'error' => $e->getMessage()
-            ], 500);
-        }
+        $data = $this->productService->store($request->all());
+        return new ProductResource($data);
     }
 
     /**
@@ -77,19 +67,19 @@ class ProductController extends Controller
      *
      * @param  \App\Http\Requests\ProductRequest  $request
      * @param  int  $id
-     * @return ProductResource
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ProductRequest $request, $id)
+    public function update(ProductUpdateRequest $request, $id)
     {
-        $product = $this->productService->updateProduct($id, $request->all());
-        return new ProductResource($product);
+        $product = $this->productService->updateProduct($id, $request->except('code'));
+        return $product;
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

@@ -3,11 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CategoryResource;
-use App\Models\Product;
-use App\Models\Category;
+use App\Services\CategoryService;
 
 class CategoryController extends Controller
 {
+
+    /**
+     * @var CategoryService
+     */
+    private $categoryService;
+
+    /**
+     * CategoryController constructor.
+     * @param CategoryService $categoryService
+     */
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
 
     /**
      * Display a listing of the resource.
@@ -16,8 +29,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return CategoryResource::collection($categories);
+        $categories = $this->categoryService->getAll();
+        return $categories;
     }
 
     /**
@@ -25,14 +38,9 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show()
+    public function show($id)
     {
-        $products = Product::where('category_id', request()->id)
-                    ->latest()
-                    ->paginate(9);
-
-        return response()->json([
-            'data' => new CategoryResource($products)
-        ]);
+        $products = $this->categoryService->getProducts($id);
+        return $products;
     }
 }

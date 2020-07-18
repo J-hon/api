@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReviewRequest;
 use App\Http\Resources\ReviewResource;
+use App\Services\ReviewService;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\Review;
 
 class ReviewController extends Controller
 {
-    public function __construct()
+
+    private $reviewService;
+
+    public function __construct(ReviewService $reviewService)
     {
+        $this->reviewService = $reviewService;
         $this->middleware('auth:api')->except('index');
     }
 
@@ -20,35 +25,22 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Product $product)
+    public function index($id)
     {
-        return ReviewResource::collection($product->reviews);
+        $reviews = $this->reviewService->getReviews($id);
+        return $reviews;
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\ReviewRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(ReviewRequest $request, Product $product)
     {
-
-        $user = Auth::user();
-
-        $review = Review::firstOrCreate([
-            'user_id' => $user->id,
-            'product_id' => $product->id,
-            'rating' => $request->rating,
-            'title' => $request->title,
-            'description' => $request->description
-        ]);
-
-        $product->reviews()->save($review);
-
-        return response([
-            'data' => new ReviewResource($review)
-        ], 201);
+        $review = $this->reviewService->createReview($request->all());
+        return $review;
     }
 
 }

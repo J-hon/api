@@ -2,7 +2,8 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Review;
+use App\Models\SaveForLater;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -37,6 +38,16 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
       'email_verified_at' => 'datetime',
     ];
+
+    public function saveForLater()
+    {
+        return $this->belongsTo(SaveForLater::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 
     public function getJWTIdentifier()
     {

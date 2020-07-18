@@ -1,11 +1,11 @@
 <?php
 
-
 namespace App\Repositories;
 
+use App\Interfaces\ProductRepositoryInterface;
 use App\Models\Product;
 
-class ProductRepository
+class ProductRepository implements ProductRepositoryInterface
 {
 
     /**
@@ -26,7 +26,7 @@ class ProductRepository
 
     public function index()
     {
-        return $this->product->paginate(5);
+        return $this->product->paginate(9);
     }
 
     public function store($data)
@@ -46,7 +46,7 @@ class ProductRepository
 
     public function getProductById(int $id)
     {
-        $this->product = Product::findOrFail($id);
+        $this->product = $this->product->where('id', $id)->first();
         return $this->product;
     }
 

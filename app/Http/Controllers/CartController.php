@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use App\Http\Requests\CartRequest;
 use App\Http\Resources\CartResource;
@@ -12,9 +13,12 @@ use App\Models\Cart;
 class CartController extends Controller
 {
 
-    public function __construct()
+    private $cartService;
+
+    public function __construct(CartService $cartService)
     {
         $this->middleware('auth:api');
+        $this->cartService = $cartService;
     }
 
     /**
@@ -24,12 +28,8 @@ class CartController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $cart = Cart::where('user_id', $user->id)
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(6);
-
-        return CartResource::collection($cart);
+        $cart = $this->cartService->getItems();
+        return $cart;
     }
 
     /**
@@ -40,23 +40,8 @@ class CartController extends Controller
      */
     public function store(CartRequest $request)
     {
-        $cart = new Cart;
-        $user = Auth::user();
-
-        $cart->user_id = $user->id;
-        $cart->product_id = $request->product_id;
-
-        if (isset($cart->user_id) and isset($cart->product_id)) {
-            return response()->json([
-                'data' => 'Item already exists in cart.'
-            ], 409);
-        }
-
-        $cart->save();
-
-        return response()->json([
-            'data' => new CartResource($cart)
-        ], 201);
+        $item = $this->cartService->storeItems($request->all());
+        return $item;
     }
 
     /**

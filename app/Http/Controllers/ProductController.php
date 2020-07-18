@@ -14,14 +14,12 @@ class ProductController extends Controller
     /**
      * @var ProductService
      */
-
     private $productService;
 
     /**
      * ProductController constructor.
      * @param ProductService $productService
      */
-
     public function __construct(ProductService $productService)
     {
         $this->middleware('auth:api')->except(['index', 'show']);

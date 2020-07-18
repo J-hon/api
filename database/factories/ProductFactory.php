@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Product;
+use App\Models\Product;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -19,14 +19,14 @@ use Illuminate\Support\Str;
 
 $factory->define(Product::class, function (Faker $faker) {
     $product = $faker->words(2, true);
-    
+
     return [
         'name'  => $product,
         'slug'  => str_replace(' ','-' , $product),
         'code' => $faker->unique()->numerify('api###'),
         'price' => $faker->randomFloat(2, 10, 100),
         'category_id' => function(){
-        	return \App\Category::all()->random();
+        	return \App\Models\Category::all()->random();
         },
         'description' => $faker->realText(50),
     ];

@@ -3,20 +3,20 @@
 namespace App\Services;
 
 use App\Repositories\ProductRepository;
+use App\Interfaces\ProductRepositoryInterface;
 
 class ProductService
 {
     /**
      * @var ProductRepository
      */
-
     private $productRepository;
 
     /**
      * ProductService constructor.
      * @param ProductRepository $productRepository
      */
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
     }
@@ -42,7 +42,7 @@ class ProductService
 
     /**
      * @param int $id
-     * @return \App\Product
+     * @return \App\Models\Product
      */
     public function getProductById(int $id)
     {

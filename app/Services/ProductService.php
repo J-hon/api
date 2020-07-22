@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ProductRepository;
-use App\Interfaces\ProductRepositoryInterface;
+use App\Contracts\ProductRepositoryInterface;
 
 class ProductService
 {
@@ -59,7 +59,8 @@ class ProductService
     {
         $getProduct = $this->productRepository->getProductById($id);
 
-        if (!$getProduct) {
+        if (!$getProduct)
+        {
             return response()->json([
                 'message' => 'Product Not Found'
             ], 404);
@@ -79,7 +80,8 @@ class ProductService
     {
         $prod = $this->productRepository->getProductById($id);
 
-        if (!$prod) {
+        if (!$prod)
+        {
             return response()->json([
                 'message' => 'Product Not Found'
             ], 404);

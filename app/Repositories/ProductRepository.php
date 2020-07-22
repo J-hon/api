@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\ProductRepositoryInterface;
+use App\Contracts\ProductRepositoryInterface;
 use App\Models\Product;
 
 class ProductRepository implements ProductRepositoryInterface
@@ -24,11 +24,18 @@ class ProductRepository implements ProductRepositoryInterface
         $this->product = $product;
     }
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
         return $this->product->paginate(9);
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     public function store($data)
     {
         $product = new $this->product;
@@ -44,17 +51,30 @@ class ProductRepository implements ProductRepositoryInterface
         return $product;
     }
 
+    /**
+     * @param int $id
+     * @return Product
+     */
     public function getProductById(int $id)
     {
-        $this->product = $this->product->where('id', $id)->first();
-        return $this->product;
+        $product = $this->product->where('id', $id)->first();
+        return $product;
     }
 
+    /**
+     * @param object $prod
+     * @param array $product
+     * @return mixed
+     */
     public function updateProduct(object $prod, array $product)
     {
         return $prod->update($product);
     }
 
+    /**
+     * @param object $product
+     * @return mixed
+     */
     public function deleteProduct(object $product)
     {
         return $product->delete();

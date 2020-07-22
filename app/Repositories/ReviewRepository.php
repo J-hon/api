@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Contracts\ReviewRepositoryInterface;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 
-class ReviewRepository
+class ReviewRepository implements ReviewRepositoryInterface
 {
 
     /**

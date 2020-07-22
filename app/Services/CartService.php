@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Contracts\CartRepositoryInterface;
 use App\Http\Resources\CartResource;
 use App\Repositories\CartRepository;
 
@@ -15,9 +16,9 @@ class CartService
 
     /**
      * CartService constructor.
-     * @param CartRepository $cartRepository
+     * @param CartRepositoryInterface $cartRepository
      */
-    public function __construct(CartRepository $cartRepository)
+    public function __construct(CartRepositoryInterface $cartRepository)
     {
         $this->cartRepository = $cartRepository;
     }

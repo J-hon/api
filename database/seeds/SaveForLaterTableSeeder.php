@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class CartTableSeeder extends Seeder
+class SaveForLaterTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class CartTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Cart::class, 30)->create();
+        factory(App\Models\SaveForLater::class, 30)->create();
     }
 }

@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Contracts\CartRepositoryInterface;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
 
-class CartRepository
+class CartRepository implements CartRepositoryInterface
 {
 
     /**
@@ -39,7 +40,7 @@ class CartRepository
      * @param $data
      * @return mixed
      */
-    public function findItem($id)
+    public function findItem(int $id)
     {
         $user = Auth::user();
 
@@ -53,7 +54,7 @@ class CartRepository
      * @param $data
      * @return mixed
      */
-    public function storeItems($data)
+    public function storeItems(array $data)
     {
         $user = Auth::user();
         $cart = new $this->cart;

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Resources\CategoryProductsResource;
+use App\Contracts\CategoryRepositoryInterface;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Repositories\CategoryRepository;
@@ -17,9 +17,9 @@ class CategoryService
 
     /**
      * CategoryService constructor.
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      */
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct(CategoryRepositoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }

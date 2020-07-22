@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
 //            ProductTableSeeder::class,
 //            ReviewTableSeeder::class,
 //            CartTableSeeder::class,
+//            SaveForLaterTableSeeder::class,
         ]);
     }
 }

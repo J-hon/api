@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Contracts\ReviewRepositoryInterface;
 use App\Http\Resources\ReviewResource;
 use App\Repositories\ReviewRepository;
 
@@ -15,9 +16,9 @@ class ReviewService
 
     /**
      * ReviewService constructor.
-     * @param ReviewRepository $reviewRepository
+     * @param ReviewRepositoryInterface $reviewRepository
      */
-    public function __construct(ReviewRepository $reviewRepository)
+    public function __construct(ReviewRepositoryInterface $reviewRepository)
     {
         $this->reviewRepository = $reviewRepository;
     }

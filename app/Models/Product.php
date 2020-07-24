@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Review;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
+    use Searchable;
+
     protected $fillable = [
         'name', 'code', 'slug', 'description', 'price', 'category_id'
     ];

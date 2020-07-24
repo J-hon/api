@@ -25,18 +25,18 @@ Route::group(['middleware' => ['api']], function() {
         Route::post('products/{product}/reviews', 'ReviewController@store');
 
         // Cart routes
-        Route::get('/cart', 'CartController@index');
-        Route::post('/cart', 'CartController@store');
-        Route::delete('/cart/{id}', 'CartController@destroy');
+        Route::get('cart', 'CartController@index');
+        Route::post('cart', 'CartController@store');
+        Route::delete('cart/{id}', 'CartController@destroy');
 
         // Saveforlater routes
-        Route::get('/saveforlater', 'SaveForLaterController@index');
-        Route::post('/saveforlater', 'SaveForLaterController@store');
-        Route::delete('/saveforlater/{id}', 'SaveForLaterController@destroy');
+        Route::get('saveforlater', 'SaveForLaterController@index');
+        Route::post('saveforlater', 'SaveForLaterController@store');
+        Route::delete('saveforlater/{id}', 'SaveForLaterController@destroy');
 
         // Category routes
-        Route::get('/categories', 'CategoryController@index');
-        Route::get('/category/{id}', 'CategoryController@show');
+        Route::get('categories', 'CategoryController@index');
+        Route::get('category/{id}', 'CategoryController@show');
 
         // Login routes
         Route::post('register', 'Auth\AuthController@register');
@@ -44,7 +44,7 @@ Route::group(['middleware' => ['api']], function() {
         Route::post('logout', 'Auth\AuthController@logout');
 
         // Search route
-        Route::get('/{query}', 'SearchController@search');
+        Route::get('search/{query}', 'SearchController@search');
 
     });
 

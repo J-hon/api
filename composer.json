@@ -9,10 +9,12 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "algolia/algoliasearch-client-php": "^2.7",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
+        "laravel/scout": "^8.1",
         "laravel/tinker": "^2.0",
         "tymon/jwt-auth": "^1.0"
     },

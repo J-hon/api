@@ -38,10 +38,16 @@ Route::group(['middleware' => ['api']], function() {
         Route::get('categories', 'CategoryController@index');
         Route::get('category/{id}', 'CategoryController@show');
 
-        // Login routes
-        Route::post('register', 'Auth\AuthController@register');
-        Route::post('login', 'Auth\AuthController@login');
-        Route::post('logout', 'Auth\AuthController@logout');
+        // Auth routes
+        Route::post('register', 'Api\AuthController@register');
+        Route::post('login', 'Api\AuthController@login');
+        Route::post('logout', 'Api\AuthController@logout');
+
+        Route::post('/password/email', 'Api\ForgotPasswordController@sendResetLinkEmail');
+        Route::post('/password/reset', 'Api\ResetPasswordController@reset');
+
+        Route::get('email/resend', 'Api\VerificationController@resend')->name('verification.resend');
+        Route::get('email/verify/{id}/{hash}', 'Api\VerificationController@verify')->name('verification.verify');
 
         // Search route
         Route::get('search/{query}', 'SearchController@search');

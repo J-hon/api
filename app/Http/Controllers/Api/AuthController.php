@@ -1,15 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Auth\Events\Verified;
 
 class AuthController extends Controller
 {
+
+    use VerifiesEmails;
+//
+//    public $successStatus = 200;
 
     //find current user
     public function getAuthUser(Request $request)
@@ -25,8 +31,9 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        $token = auth()->login($user);
+//        $user->sendEmailVerificationNotification();
 
+        $token = auth()->login($user);
         return $this->respondWithToken($token);
     }
 

@@ -4,11 +4,13 @@ namespace App;
 
 use App\Models\Review;
 use App\Models\SaveForLater;
+use App\Notifications\PasswordResetNotification;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use Notifiable;
 
@@ -38,6 +40,22 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
       'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordResetNotification($token));
+    }
+
+//    public function sendApiEmailVerificationNotification()
+//    {
+//        $this->notify(new VerifyApiEmail); // my notification
+//    }
 
     public function saveForLater()
     {

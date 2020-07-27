@@ -6,9 +6,6 @@ use App\Models\Product;
 use App\Services\CartService;
 use Illuminate\Http\Request;
 use App\Http\Requests\CartRequest;
-use App\Http\Resources\CartResource;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Cart;
 
 class CartController extends Controller
 {

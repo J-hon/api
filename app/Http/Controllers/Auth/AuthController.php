@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -8,7 +8,6 @@ use App\Http\Requests\AuthRequest;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Foundation\Auth\VerifiesEmails;
-use Illuminate\Auth\Events\Verified;
 
 class AuthController extends Controller
 {
@@ -31,7 +30,7 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-//        $user->sendEmailVerificationNotification();
+        $user->sendApiEmailVerificationNotification();
 
         $token = auth()->login($user);
         return $this->respondWithToken($token);
@@ -40,8 +39,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only(['email', 'password']);
-
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials))
+        {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 

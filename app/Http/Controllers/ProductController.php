@@ -8,7 +8,7 @@ use App\Http\Requests\Product\ProductRequest;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Product\ProductReviewResource;
 
-class ProductController extends Controller
+class ProductController extends BaseController
 {
 
     /**
@@ -22,42 +22,42 @@ class ProductController extends Controller
      */
     public function __construct(ProductService $productService)
     {
-        $this->middleware('auth:api')->except(['index', 'show']);
+//        $this->middleware('auth:user');
         $this->productService = $productService;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         $products = $this->productService->index();
-        return ProductResource::collection($products);
+        return $this->responseJson(true, 200, '', ProductResource::collection($products));
     }
 
     /**
      * @param ProductRequest $request
-     * @return ProductResource
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function store(ProductRequest $request)
     {
         $data = $this->productService->store($request->all());
-        return new ProductResource($data);
+        return $this->responseJson(true, 200, '', new ProductResource($data));
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return ProductReviewResource
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
         $product = $this->productService->getProductById($id);
-        return new ProductReviewResource($product);
+        return $this->responseJson(true, 200, '', new ProductReviewResource($product));
     }
 
     /**
@@ -70,7 +70,7 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, $id)
     {
         $product = $this->productService->updateProduct($id, $request->except('code'));
-        return $product;
+        return $this->responseJson(true, 200, '', new ProductResource($product));
     }
 
     /**
@@ -81,7 +81,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = $this->productService->deleteProduct($id);
-        return $product;
+        return $this->productService->deleteProduct($id);
     }
 }

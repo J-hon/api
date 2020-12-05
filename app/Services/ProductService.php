@@ -14,7 +14,7 @@ class ProductService
 
     /**
      * ProductService constructor.
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(ProductRepositoryInterface $productRepository)
     {
@@ -26,8 +26,7 @@ class ProductService
      */
     public function index()
     {
-        $products =$this->productRepository->index();
-        return $products;
+        return $this->productRepository->index();
     }
 
     /**
@@ -36,8 +35,7 @@ class ProductService
      */
     public function store($data)
     {
-        $product = $this->productRepository->store($data);
-        return $product;
+        return $this->productRepository->store($data);
     }
 
     /**
@@ -46,8 +44,7 @@ class ProductService
      */
     public function getProductById(int $id)
     {
-        $product = $this->productRepository->getProductById($id);
-        return $product;
+        return $this->productRepository->getProductById($id);
     }
 
     /**

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SaveForLater extends Model
 {
-    protected $fillables = [
+    protected $fillable = [
         'user_id', 'product_id'
     ];
 

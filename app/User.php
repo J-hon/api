@@ -5,6 +5,7 @@ namespace App;
 use App\Models\Review;
 use App\Models\SaveForLater;
 use App\Notifications\PasswordResetNotification;
+use App\Notifications\VerifyApiEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -52,14 +53,14 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         $this->notify(new PasswordResetNotification($token));
     }
 
-//    public function sendApiEmailVerificationNotification()
-//    {
-//        $this->notify(new VerifyApiEmail); // my notification
-//    }
+    public function sendApiEmailVerificationNotification()
+    {
+        $this->notify(new VerifyApiEmail()); // my notification
+    }
 
     public function saveForLater()
     {
-        return $this->belongsTo(SaveForLater::class);
+        return $this->hasMany(SaveForLater::class);
     }
 
     public function reviews()

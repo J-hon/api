@@ -5,23 +5,13 @@ namespace App\Repositories;
 use App\Contracts\ProductRepositoryInterface;
 use App\Models\Product;
 
-class ProductRepository implements ProductRepositoryInterface
+class ProductRepository extends BaseRepository implements ProductRepositoryInterface
 {
 
-    /**
-     * @var Product
-     */
-    protected $product;
-
-    /**
-     * ProductRepository constructor.
-     *
-     * @param Product $product
-     */
-
-    public function __construct(Product $product)
+    public function __construct(Product $model)
     {
-        $this->product = $product;
+        parent::__construct($model);
+        $this->model = $model;
     }
 
     /**
@@ -29,7 +19,7 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function index()
     {
-        return $this->product->paginate(9);
+        return $this->model->orderBy('created_at', 'DESC')->paginate(5);
     }
 
     /**
@@ -38,17 +28,7 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function store($data)
     {
-        $product = new $this->product;
-
-        $product->name = $data['name'];
-        $product->code = $data['code'];
-        $product->slug = $data['slug'];
-        $product->description = $data['description'];
-        $product->price = $data['price'];
-        $product->category_id = $data['category_id'];
-
-        $product->save();
-        return $product;
+        return $this->create($data);
     }
 
     /**
@@ -57,8 +37,7 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function getProductById(int $id)
     {
-        $product = $this->product->where('id', $id)->first();
-        return $product;
+        return $this->find($id);
     }
 
     /**

@@ -12,46 +12,39 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::prefix('v1')->group(function () {
+    // Product routes
+    Route::get('products', 'ProductController@index');
 
-Route::group(['middleware' => ['api']], function() {
+    // Review routes
+    Route::get('products/{product}/reviews', 'ReviewController@index');
+    Route::post('products/{product}/reviews', 'ReviewController@store');
 
-    Route::prefix('v1')->group(function () {
+    // Cart routes
+    Route::get('cart', 'CartController@index');
+    Route::post('cart', 'CartController@store');
+    Route::delete('cart/{id}', 'CartController@destroy');
 
-        // Product routes
-        Route::apiResource('/products', 'ProductController');
+    // SaveForLater routes
+    Route::get('save_for_later', 'SaveForLaterController@index');
+    Route::post('save_for_later', 'SaveForLaterController@store');
+    Route::delete('save_for_later/{id}', 'SaveForLaterController@destroy');
 
-        // Review routes
-        Route::get('products/{product}/reviews', 'ReviewController@index');
-        Route::post('products/{product}/reviews', 'ReviewController@store');
+    // Category routes
+    Route::get('categories', 'CategoryController@index');
+    Route::get('category/{id}', 'CategoryController@show');
 
-        // Cart routes
-        Route::get('cart', 'CartController@index');
-        Route::post('cart', 'CartController@store');
-        Route::delete('cart/{id}', 'CartController@destroy');
+    Route::post('register', 'Auth\AuthController@register');
+    Route::post('login', 'Auth\AuthController@login');
+    Route::post('logout', 'Auth\AuthController@logout');
 
-        // Saveforlater routes
-        Route::get('saveforlater', 'SaveForLaterController@index');
-        Route::post('saveforlater', 'SaveForLaterController@store');
-        Route::delete('saveforlater/{id}', 'SaveForLaterController@destroy');
+    Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+    Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
 
-        // Category routes
-        Route::get('categories', 'CategoryController@index');
-        Route::get('category/{id}', 'CategoryController@show');
+    Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+    Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
 
-        // Auth routes
-        Route::post('register', 'Api\AuthController@register');
-        Route::post('login', 'Api\AuthController@login');
-        Route::post('logout', 'Api\AuthController@logout');
-
-        Route::post('/password/email', 'Api\ForgotPasswordController@sendResetLinkEmail');
-        Route::post('/password/reset', 'Api\ResetPasswordController@reset');
-
-        Route::get('email/resend', 'Api\VerificationController@resend')->name('verification.resend');
-        Route::get('email/verify/{id}/{hash}', 'Api\VerificationController@verify')->name('verification.verify');
-
-        // Search route
-        Route::get('search/{query}', 'SearchController@search');
-
-    });
+    // Search route
+    Route::get('search/{query}', 'SearchController@search');
 
 });

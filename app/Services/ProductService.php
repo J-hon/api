@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\ProductRepository;
 use App\Contracts\ProductRepositoryInterface;
+use Illuminate\Support\Str;
 
 class ProductService
 {
@@ -35,6 +36,9 @@ class ProductService
      */
     public function store($data)
     {
+        $data['code'] = rand(0001, 9999);
+        $data['slug'] = Str::slug($data['name']);
+
         return $this->productRepository->store($data);
     }
 

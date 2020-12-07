@@ -25,8 +25,6 @@ class ProductRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'code' => 'required|unique:products',
-            'slug' => 'required|max:255|unique:products',
             'description' => 'required',
             'price' =>  'required|regex:/^\d+(\.\d{0,2})?$/',
             'category_id' => 'required|integer'
